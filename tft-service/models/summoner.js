@@ -1,4 +1,5 @@
 const Sequelize = require('sequelize');
+const { search } = require('../app');
 
 const sequelize = new Sequelize('tftSQL', 'root', 'zxcdsa1998', {
     host: 'localhost',
@@ -40,6 +41,26 @@ const Summoner = sequelize.define('summoners', {
     accountId: {
         type: Sequelize.STRING,
         allowNull: false,
+    },
+    tier: {
+      type: Sequelize.STRING,
+      allowNull: true,    
+    },
+    rank: {
+      type: Sequelize.STRING,
+      allowNull: true,
+    },
+    wins: {
+      type: Sequelize.INTEGER,
+      allowNull: true,
+    },
+    losses: {
+      type: Sequelize.INTEGER,
+      allowNull: true,
+    },
+    leaguePoints: {
+      type: Sequelize.INTEGER,
+      allowNull: true
     }
   }, {
     // options

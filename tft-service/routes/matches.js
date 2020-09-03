@@ -37,7 +37,7 @@ router.get('/', function(req, res, next) {
     .then(response => {
         let out = [];
         response.data.forEach(match => {
-            out.push(getMatch(child));
+            out.push(getMatch(match));
         })
         res.send(response.data);
     })
@@ -47,7 +47,8 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/match', function(req, res, next) {
-    let url = 'https://americas.api.riotgames.com/tft/match/v1/matches/' + req.query.mid; 
+    const url = 'https://americas.api.riotgames.com/tft/match/v1/matches/' + req.query.mid; 
+    const id = req.query.puuid || testID;
     axios({
         method: 'get',
         url,
@@ -56,7 +57,11 @@ router.get('/match', function(req, res, next) {
         }
     })
     .then(response => {
-        res.send(response.data);
+        res.send({
+            summoner_info: response.data.info.participants.find(participant => participant.puuid = id),
+            matchId: response.data.metadata.matchId,
+            ...response.data.info
+        });
     })
     .catch(error => {
         res.send(error);
